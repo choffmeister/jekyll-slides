@@ -1,0 +1,16 @@
+---
+layout: default
+---
+
+<div class="slides">
+    {% for chapter in page.chapters %}
+    <div class="chapter">
+        {% for slide in chapter.slides %}
+        <div class="slide">
+            {{ slide.html }}
+            {{ slide.markdown }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
