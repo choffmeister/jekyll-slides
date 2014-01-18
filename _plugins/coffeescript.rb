@@ -1,5 +1,5 @@
 module Jekyll
-  class InlineLessTag < Liquid::Tag
+  class InlineCoffeeScriptTag < Liquid::Tag
 
     def initialize(tag_name, text, tokens)
       super
@@ -7,20 +7,20 @@ module Jekyll
     end
 
     def render(context)
-      require 'less'
+      require 'coffee-script'
 
       site = context.registers[:site]
       safe = site.safe
-      options = {"compress" => true}.merge(site.config["less"] ||= {})
+      options = {}.merge(site.config["coffeescript"] ||= {})
 
       path = File.join(context.registers[:site].source, @text.strip)
       self.validate_dir(File.dirname(path), safe)
       self.validate_file(path, safe)
 
-      less = File.read(path)
-      css = ::Less::Parser.new({:paths => [File.dirname(path)]}).parse(less).to_css(options)
+      coffee = File.read(path)
+      js = CoffeeScript.compile(coffee, options)
 
-      css
+      js
     end
 
     def validate_dir(dir, safe)
@@ -39,4 +39,4 @@ module Jekyll
   end
 end
 
-Liquid::Template.register_tag('inline_less', Jekyll::InlineLessTag)
+Liquid::Template.register_tag('inline_coffeescript', Jekyll::InlineCoffeeScriptTag)

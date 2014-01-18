@@ -5,9 +5,6 @@ layout: default
 <div>
   {% for chapter in page.chapters %}
   <div class="chapter">
-    <div class="slide chapter-title">
-      <h1>{{ chapter.name }}</h1>
-    </div>
     {% for slide in chapter.slides %}
     <div class="slide">
       {{ slide.html }}

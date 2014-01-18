@@ -1,3 +1,4 @@
 name: slidez
+exclude: [".git", ".gitignore", "Gemfile"]
 markdown: redcarpet
 pygments: true

@@ -20,11 +20,9 @@ module Jekyll
   end
 
   class Chapter
-    attr_accessor :data
     attr_accessor :slides
 
-    def initialize(site, data, content)
-      @data = data
+    def initialize(site, content)
       @slides = content
         .gsub("\r\n", "\n")
         .gsub("\r", "\n")
@@ -36,7 +34,6 @@ module Jekyll
 
     def to_liquid
       {
-        "name" => @data["name"],
         "slides" => @slides
       }
     end
@@ -53,20 +50,16 @@ module Jekyll
     safe true
 
     def generate(site)
-      # find chapters
-      chapters = site.pages
-        .select { |p| self.is_chapter(p) }
-        .map { |c| Chapter.new(site, c.data, c.content) }
+      dir = File.join(site.source, "_chapters")
+      files = File.join(dir, "*.md")
 
-      # remove chapters from pages
-      site.pages = site.pages.select { |p| not self.is_chapter(p) }
+      # read chapters
+      chapters = Dir.glob(files)
+        .map { |f| File.read(f) }
+        .map { |c| Chapter.new(site, c) }
 
       # generate the slidez page
       site.pages << SlidezPage.new(site, site.source, "", "index.html", chapters)
-    end
-
-    def is_chapter(page)
-      page.dir == "/chapters"
     end
   end
 
