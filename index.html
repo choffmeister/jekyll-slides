@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<div>
+<div id="slidez">
   {% for chapter in page.chapters %}
   <div class="chapter">
     {% for slide in chapter.slides %}
@@ -13,3 +13,7 @@ layout: default
   </div>
   {% endfor %}
 </div>
+<script type="text/javascript">
+  window.slidez.init();
+  window.slidez.start();
+</script>
