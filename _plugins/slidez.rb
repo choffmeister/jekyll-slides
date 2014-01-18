@@ -23,13 +23,20 @@ module Jekyll
     attr_accessor :data
     attr_accessor :slides
 
-    def initialize(site, data, markdown)
+    def initialize(site, data, content)
       @data = data
-      @slides = [Slide.new(site, markdown)]
+      @slides = content
+        .gsub("\r\n", "\n")
+        .gsub("\r", "\n")
+        .split(/^\-{3,}$/)
+        .map { |s| s.strip }
+        .select { |s| s.length > 0 }
+        .map { |s| Slide.new(site, s) }
     end
 
     def to_liquid
       {
+        "name" => @data["name"],
         "slides" => @slides
       }
     end

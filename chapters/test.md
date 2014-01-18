@@ -1,5 +1,5 @@
 ---
-name: test
+name: Chapter 1
 ---
 
 # Hello World

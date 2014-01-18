@@ -1,5 +1,5 @@
 ---
-name: test
+name: Chapter 2
 ---
 
 # Hello World 2
@@ -8,118 +8,30 @@ name: test
 class User {
   var name = "Tom"
 }
-~~~
 
-~~~ scala
-class User {
-  var name = "Tom"
+object User {
+  def apply(name: String) = new User(name)
 }
 ~~~
 
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
+---
 
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
+Some text...
 
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
+---
 
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
+~~~ csharp
+using System;
 
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
-}
-~~~
-
-~~~ scala
-class User {
-  var name = "Tom"
+namespace Test
+{
+  public class Test
+  {
+    public Test()
+    {
+      List<int> list = new List<int>();
+      var a = new Apple();
+    }
+  }
 }
 ~~~
