@@ -1,2 +1,5 @@
 # build target
 _site
+
+# gemfile lock
+Gemfile.lock
