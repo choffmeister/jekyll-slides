@@ -9,15 +9,14 @@ class Slide
         "position": "absolute"
         "left": "50%"
         "top": "50%"
-      })
-      .css({
-        "max-width": "#{@chapter.presentation.originalWidth}px"
-      })
-      .css({
         "overflow": "visible"
-        "width": "#{$(@element).width() + 4}px"
+      })
+      .css({
+        "width": "#{@chapter.presentation.originalWidth}px"
+        "margin-left": "#{-@chapter.presentation.originalWidth / 2.0}px"
+      })
+      .css({
         "height": "#{$(@element).height() + 4}px"
-        "margin-left": "#{-($(@element).width() + 4) / 2.0}px"
         "margin-top": "#{-($(@element).height() + 4) / 2.0}px"
       })
 
@@ -54,9 +53,9 @@ class Presentation
 
   constructor: (element, originalWidth, originalHeight) ->
     @element = $(element)
-    @originalWidth = originalWidth or 1024
-    @originalHeight = originalHeight or 768
-    @ration = @originalWidth / @originalHeight
+    @originalWidth = originalWidth or 800
+    @originalHeight = originalHeight or 600
+    @ratio = @originalWidth / @originalHeight
 
     $(window).resize (event) => @resize(event)
     $(window).keydown (event) => @keydown(event)
