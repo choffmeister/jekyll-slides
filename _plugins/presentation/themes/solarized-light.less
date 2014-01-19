@@ -115,3 +115,21 @@
   .vi { color: @solarized-blue } /* Name.Variable.Instance */
   .il { color: @solarized-cyan } /* Literal.Number.Integer.Long */
 }
+
+/* GraphViz */
+.graph {
+  text {
+    font-family: sans-serif;
+  }
+
+  svg > g > polygon {
+    fill: none;
+    stroke: none;
+  }
+
+  ellipse {
+    stroke: @solarized-base03 !important;
+    fill: white;
+  }
+}
+

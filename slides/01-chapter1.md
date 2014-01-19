@@ -1,5 +1,19 @@
 # Hello World
 
+{% graphviz %}
+digraph graphname
+{
+  a -> b -> c;
+  b -> d;
+  k -> a;
+  a -> k;
+  d -> a [style=dashed];
+
+  { rank=same; b d }
+  { rank=same; c k }
+}
+{% endgraphviz %}
+
 ---
 
 # Next Hello World
