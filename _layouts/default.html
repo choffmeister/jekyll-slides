@@ -6,7 +6,7 @@
     <title>{{ site.name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style type="text/css">
-{% inline_less _slidez/slidez.less %}
+{% inline_less _plugins/presentation/style.less %}
     </style>
     <script type="text/javascript">
 {% include jquery-2.0.3.min.js %}
@@ -18,7 +18,7 @@
 {% include underscore-1.5.2.min.js %}
     </script>
     <script type="text/javascript">
-{% inline_coffeescript _slidez/slidez.coffee %}
+{% inline_coffeescript _plugins/presentation/main.coffee %}
     </script>
   </head>
   <body>

@@ -39,18 +39,18 @@ module Jekyll
     end
   end
 
-  class SlidezPage < Page
+  class PresentationPage < Page
     def initialize(site, base, dir, name, chapters)
       super(site, base, dir, name)
       self.data["chapters"] = chapters
     end
   end
 
-  class SlidezGenerator < Generator
+  class PresentationGenerator < Generator
     safe true
 
     def generate(site)
-      dir = File.join(site.source, "_chapters")
+      dir = File.join(site.source, "slides")
       files = File.join(dir, "*.md")
 
       # read chapters
@@ -58,8 +58,8 @@ module Jekyll
         .map { |f| File.read(f) }
         .map { |c| Chapter.new(site, c) }
 
-      # generate the slidez page
-      site.pages << SlidezPage.new(site, site.source, "", "index.html", chapters)
+      # generate the presenation page
+      site.pages << PresentationPage.new(site, site.source, "", "index.html", chapters)
     end
   end
 

@@ -11,7 +11,7 @@ class Slide
         "top": "50%"
       })
       .css({
-        "max-width": "#{@chapter.slidez.originalWidth}px"
+        "max-width": "#{@chapter.presentation.originalWidth}px"
       })
       .css({
         "overflow": "visible"
@@ -39,7 +39,7 @@ class Chapter
   previousSlide: () => if @current.y > 0 then @slides[@current.y - 1] else undefined
   nextSlide: () => if @slides.length - 1 > @current.y then @slides[@current.y + 1] else undefined
 
-  constructor: (@slidez, element, @x) ->
+  constructor: (@presentation, element, @x) ->
     @element = $(element)
     @slides = _.chain(@element.children(".slide"))
       .map((s, i) => new Slide(this, s, x, i))
@@ -47,13 +47,13 @@ class Chapter
       .value()
     @current = _.first(@slides)
 
-
-class Slidez
+class Presentation
   currentChapter: () => @current
   previousChapter: () => if @current.x > 0 then @chapters[@current.x - 1] else undefined
   nextChapter: () => if @chapters.length - 1 > @current.x then @chapters[@current.x + 1] else undefined
 
-  constructor: (originalWidth, originalHeight) ->
+  constructor: (element, originalWidth, originalHeight) ->
+    @element = $(element)
     @originalWidth = originalWidth or 1024
     @originalHeight = originalHeight or 768
     @ration = @originalWidth / @originalHeight
@@ -62,7 +62,7 @@ class Slidez
     $(window).keydown (event) => @keydown(event)
 
   init: () =>
-    @chapters = _.chain($("#slidez .chapter"))
+    @chapters = _.chain(@element.children(".chapter"))
       .map((c, i) => new Chapter(this, c, i))
       .filter((c) => c.slides.length > 0)
       .value()
@@ -107,5 +107,4 @@ class Slidez
           next.moveIn()
           @currentChapter().current = next
 
-
-window.slidez = new Slidez()
+window.Presentation = Presentation

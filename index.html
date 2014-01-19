@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<div id="slidez">
+<div id="presentation" class="fullscreen presentation">
   {% for chapter in page.chapters %}
   <div class="chapter">
     {% for slide in chapter.slides %}
@@ -14,5 +14,6 @@ layout: default
   {% endfor %}
 </div>
 <script type="text/javascript">
-  window.slidez.init();
+  var presentation = new Presentation("#presentation");
+  presentation.init();
 </script>

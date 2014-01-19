@@ -1,4 +1,4 @@
-name: slidez
-exclude: [".git", ".gitignore", "Gemfile"]
+name: jekyll-slides
+exclude: [".git", ".gitignore", "Gemfile", "slides"]
 markdown: redcarpet
 pygments: true
