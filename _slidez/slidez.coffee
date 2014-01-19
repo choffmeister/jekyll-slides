@@ -21,17 +21,17 @@ class Slide
         "margin-top": "#{-($(@element).height() + 4) / 2.0}px"
       })
 
-    @element.html(@element.html() + "<p>#{@x} / #{@y}</p>")
-    @hide(true)
-
-  show: (immediate) => @css({ opacity: 1 }, immediate)
-  hide: (immediate) => @css({ opacity: 0 }, immediate)
+  moveIn: (immediate) => @css({ opacity: 1, x: 0, y: 0 }, immediate)
+  moveOutLeft: (immediate) => @css({ opacity: 0, x: -1000, y: 0 }, immediate)
+  moveOutRight: (immediate) => @css({ opacity: 0, x: 1000, y: 0 }, immediate)
+  moveOutUp: (immediate) => @css({ opacity: 0, x: 0, y: -1000 }, immediate)
+  moveOutDown: (immediate) => @css({ opacity: 0, x: 0, y: 1000 }, immediate)
 
   css: (style, immediate) =>
     if immediate == true
       @element.css(style)
     else
-      @element.transition(style, 500, "ease")
+      @element.transition(style, 1000, "ease")
     this
 
 class Chapter
@@ -67,7 +67,14 @@ class Slidez
       .filter((c) => c.slides.length > 0)
       .value()
     @current = _.first(@chapters)
-    @currentChapter().currentSlide().show(true)
+
+    _.each(@chapters, (c) ->
+      _.each(c.slides, (s) ->
+        s.moveOutRight(true) unless s.x == 0
+        s.moveOutDown(true) unless s.y == 0
+      )
+    )
+    @currentChapter().currentSlide().moveIn(true)
 
   keydown: (event) =>
     switch event.keyCode
@@ -75,32 +82,30 @@ class Slidez
         curr = @currentChapter()
         next = @previousChapter()
         if next?
-          curr.currentSlide().hide()
-          next.currentSlide().show()
+          curr.currentSlide().moveOutRight()
+          next.currentSlide().moveIn()
           @current = next
       when 39 # right
         curr = @currentChapter()
         next = @nextChapter()
         if next?
-          curr.currentSlide().hide()
-          next.currentSlide().show()
+          curr.currentSlide().moveOutLeft()
+          next.currentSlide().moveIn()
           @current = next
       when 38 # up
         curr = @currentChapter().currentSlide()
         next = @currentChapter().previousSlide()
         if next?
-          curr.hide()
-          next.show()
+          curr.moveOutDown()
+          next.moveIn()
           @currentChapter().current = next
       when 40 # down
         curr = @currentChapter().currentSlide()
         next = @currentChapter().nextSlide()
         if next?
-          curr.hide()
-          next.show()
+          curr.moveOutUp()
+          next.moveIn()
           @currentChapter().current = next
 
-  resize: (event) =>
-    # TODO
 
 window.slidez = new Slidez()
