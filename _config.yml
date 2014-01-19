@@ -3,6 +3,7 @@ exclude:
   - .git
   - .gitignore
   - Gemfile
+  - Gemfile.lock
   - LICENSE.md
   - Makefile
   - README.md
