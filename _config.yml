@@ -1,4 +1,4 @@
 name: jekyll-slides
-exclude: [".git", ".gitignore", "Gemfile", "slides"]
+exclude: [".git", ".gitignore", "Gemfile", "slides", "LICENSE.md", "README.md"]
 markdown: redcarpet
 pygments: true
