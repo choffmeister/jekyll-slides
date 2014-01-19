@@ -7,8 +7,8 @@ module Jekyll
     def initialize(site, markdown)
       converter = Converters::Markdown.new site.config
 
-      @markdown = markdown
-      @html = converter.convert(markdown)
+      @markdown = Liquid::Template.parse(markdown).render
+      @html = converter.convert(@markdown)
     end
 
     def to_liquid
