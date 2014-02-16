@@ -31,11 +31,34 @@
 
     .chapter {
       .slide {
-        h1, h2, h3, h4, h5, h6, p {
-          text-align: center;
+        text-align: center;
+
+        * {
+          font-size: 100%;
+        }
+        h1 {
+          font-size: 150%;
+        }
+        h2 {
+          font-size: 135%;
+        }
+        h3 {
+          font-size: 120%;
+        }
+        h4, h5, h6 {
+          font-size: 110%;
+        }
+
+        & > ul, & > ol {
+          display: inline-block;
+
+          li {
+            text-align: left;
+          }
         }
 
         pre {
+          text-align: left;
           padding: 0.5em;
           border: 1px solid gray;
           border-radius: 5px;
