@@ -57,8 +57,9 @@ class Presentation
     @originalHeight = originalHeight or 600
     @ratio = @originalWidth / @originalHeight
 
-    $(window).resize (event) => @resize(event)
     $(window).keydown (event) => @keydown(event)
+    $(window).resize (event) => @resize()
+    @resize()
 
   init: () =>
     @chapters = _.chain(@element.children(".chapter"))
@@ -74,6 +75,8 @@ class Presentation
       )
     )
     @currentChapter().currentSlide().moveIn(true)
+
+  resize: (event) =>
 
   keydown: (event) =>
     switch event.keyCode
