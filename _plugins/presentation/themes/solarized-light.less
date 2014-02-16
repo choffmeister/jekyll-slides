@@ -17,28 +17,30 @@
 @solarized-green:     #859900;
 
 /* Global design */
-.presentation {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-
-  color: @solarized-base01;
+.background {
   background: @solarized-base3;
   background: radial-gradient(lighten(@solarized-base3, 5%), @solarized-base3);
 
-  .chapter {
-    .slide {
-      h1, h2, h3, h4, h5, h6, p {
-        text-align: center;
-      }
+  .presentation {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    color: @solarized-base01;
 
-      pre {
-        padding: 0.5em;
-        border: 1px solid gray;
-        border-radius: 5px;
-        background-color: rgba(0,0,0,0.1);
+    .chapter {
+      .slide {
+        h1, h2, h3, h4, h5, h6, p {
+          text-align: center;
+        }
+
+        pre {
+          padding: 0.5em;
+          border: 1px solid gray;
+          border-radius: 5px;
+          background-color: rgba(0,0,0,0.1);
+        }
       }
     }
   }

@@ -19,12 +19,6 @@ class Slide
         "margin-top": "#{-($(@element).height() + 4) / 2.0}px"
       })
 
-  moveIn: (immediate) => Slide.setStateCss(@element, "active")
-  moveOutLeft: (immediate) => Slide.setStateCss(@element, "left")
-  moveOutRight: (immediate) => Slide.setStateCss(@element, "right")
-  moveOutUp: (immediate) => Slide.setStateCss(@element, "up")
-  moveOutDown: (immediate) => Slide.setStateCss(@element, "down")
-
   @setStateCss: (element, state) =>
     Slide.cleanStateCss($(element)).addClass("state-#{state}")
     $(element)
@@ -68,46 +62,61 @@ class Presentation
       .filter((c) => c.slides.length > 0)
       .value()
     @current = _.first(@chapters)
+    @arrange()
 
-    _.each(@chapters, (c) ->
-      _.each(c.slides, (s) ->
-        s.moveOutRight(true) unless s.x == 0
-        s.moveOutDown(true) unless s.y == 0
+    # animation is blocked until the inital arrangement has been done
+    window.setTimeout((() => @element.addClass("animated")), 0)
+
+  arrange: () =>
+    distance = 1000
+    currentSlide = @currentChapter().currentSlide()
+
+    _.each(@chapters,(c) =>
+      _.each(c.slides, (s) =>
+        switch s == currentSlide
+          when true then Slide.setStateCss(s.element, "active")
+          when false then Slide.setStateCss(s.element, "inactive")
+
+        $(s.element).css({
+          "-webkit-transform": "translate(#{(s.x - @currentChapter().x) * distance}px, #{(s.y - c.currentSlide().y) * distance}px)"
+          "-moz-transform": "translate(#{(s.x - @currentChapter().x) * distance}px, #{(s.y - c.currentSlide().y) * distance}px)"
+          "-ms-transform": "translate(#{(s.x - @currentChapter().x) * distance}px, #{(s.y - c.currentSlide().y) * distance}px)"
+          "-o-transform": "translate(#{(s.x - @currentChapter().x) * distance}px, #{(s.y - c.currentSlide().y) * distance}px)"
+          "transform": "translate(#{(s.x - @currentChapter().x) * distance}px, #{(s.y - c.currentSlide().y) * distance}px)"
+        })
       )
     )
-    @currentChapter().currentSlide().moveIn(true)
 
   resize: (event) =>
 
   keydown: (event) =>
+    console.log(event.keyCode)
     switch event.keyCode
+      when 27 # escape
+        @element.toggleClass("overview")
       when 37 # left
         curr = @currentChapter()
         next = @previousChapter()
         if next?
-          curr.currentSlide().moveOutRight()
-          next.currentSlide().moveIn()
           @current = next
+          @arrange()
       when 39 # right
         curr = @currentChapter()
         next = @nextChapter()
         if next?
-          curr.currentSlide().moveOutLeft()
-          next.currentSlide().moveIn()
           @current = next
+          @arrange()
       when 38 # up
         curr = @currentChapter().currentSlide()
         next = @currentChapter().previousSlide()
         if next?
-          curr.moveOutDown()
-          next.moveIn()
           @currentChapter().current = next
+          @arrange()
       when 40 # down
         curr = @currentChapter().currentSlide()
         next = @currentChapter().nextSlide()
         if next?
-          curr.moveOutUp()
-          next.moveIn()
           @currentChapter().current = next
+          @arrange()
 
 window.Presentation = Presentation
