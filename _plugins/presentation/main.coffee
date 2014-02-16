@@ -5,7 +5,6 @@ class Slide
     @element = $(element)
     @element
       .css({
-        "opacity": 0
         "position": "absolute"
         "left": "50%"
         "top": "50%"
@@ -20,18 +19,20 @@ class Slide
         "margin-top": "#{-($(@element).height() + 4) / 2.0}px"
       })
 
-  moveIn: (immediate) => @css({ opacity: 1, x: 0, y: 0 }, immediate)
-  moveOutLeft: (immediate) => @css({ opacity: 0, x: -1000, y: 0 }, immediate)
-  moveOutRight: (immediate) => @css({ opacity: 0, x: 1000, y: 0 }, immediate)
-  moveOutUp: (immediate) => @css({ opacity: 0, x: 0, y: -1000 }, immediate)
-  moveOutDown: (immediate) => @css({ opacity: 0, x: 0, y: 1000 }, immediate)
+  moveIn: (immediate) => Slide.setStateCss(@element, "active")
+  moveOutLeft: (immediate) => Slide.setStateCss(@element, "left")
+  moveOutRight: (immediate) => Slide.setStateCss(@element, "right")
+  moveOutUp: (immediate) => Slide.setStateCss(@element, "up")
+  moveOutDown: (immediate) => Slide.setStateCss(@element, "down")
 
-  css: (style, immediate) =>
-    if immediate == true
-      @element.css(style)
-    else
-      @element.transition(style, 1000, "ease")
-    this
+  @setStateCss: (element, state) =>
+    Slide.cleanStateCss($(element)).addClass("state-#{state}")
+    $(element)
+
+  @cleanStateCss: (element) ->
+    $(element).removeClass (index, css) ->
+      (css.match(/state-[^\s]+/g) or []).join(" ")
+    $(element)
 
 class Chapter
   currentSlide: () => @current
