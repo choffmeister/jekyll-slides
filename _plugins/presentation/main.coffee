@@ -68,7 +68,6 @@ class Presentation
     window.setTimeout((() => @element.addClass("animated")), 0)
 
   arrange: () =>
-    distance = 1000
     currentSlide = @currentChapter().currentSlide()
 
     _.each(@chapters,(c) =>
@@ -78,11 +77,11 @@ class Presentation
           when false then Slide.setStateCss(s.element, "inactive")
 
         $(s.element).css({
-          "-webkit-transform": "translate(#{(s.x - @currentChapter().x) * distance}px, #{(s.y - c.currentSlide().y) * distance}px)"
-          "-moz-transform": "translate(#{(s.x - @currentChapter().x) * distance}px, #{(s.y - c.currentSlide().y) * distance}px)"
-          "-ms-transform": "translate(#{(s.x - @currentChapter().x) * distance}px, #{(s.y - c.currentSlide().y) * distance}px)"
-          "-o-transform": "translate(#{(s.x - @currentChapter().x) * distance}px, #{(s.y - c.currentSlide().y) * distance}px)"
-          "transform": "translate(#{(s.x - @currentChapter().x) * distance}px, #{(s.y - c.currentSlide().y) * distance}px)"
+          "-webkit-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
+          "-moz-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
+          "-ms-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
+          "-o-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
+          "transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
         })
       )
     )
