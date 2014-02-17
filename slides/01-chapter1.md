@@ -15,7 +15,7 @@ html
 
 # CoffeeScript
 
-{% inline_svg _images/coffeescript.svg %}
+{% inline_svg images/coffeescript.svg %}
 
 ~~~ coffee
 class Name
