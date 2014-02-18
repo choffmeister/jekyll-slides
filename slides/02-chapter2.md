@@ -1,4 +1,6 @@
-# Hello World 2
+{% inline_svg images/coffeescript.svg %}
+
+---
 
 ~~~ scala
 class User {

@@ -1,4 +1,4 @@
-# Hello World
+{% inline_svg images/javascript.svg scale='0.25' %}
 
 ---
 
@@ -14,8 +14,6 @@ html
 ---
 
 # CoffeeScript
-
-{% inline_svg images/coffeescript.svg %}
 
 ~~~ coffee
 class Name
