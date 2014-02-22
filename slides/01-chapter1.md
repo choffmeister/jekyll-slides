@@ -2,6 +2,19 @@
 
 ---
 
+{% inline_svg images/fingerprint.svg scale='0.75' %}
+
+---
+
+{% inline_svg images/mario.svg scale='10' %}
+
+---
+
+{% inline_svg images/luigi.svg scale='10' %}
+{% inline_svg images/bowser.svg scale='10' %}
+
+---
+
 # Next Hello World
 
 ~~~ jade
