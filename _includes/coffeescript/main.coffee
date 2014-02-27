@@ -117,5 +117,9 @@ class Presentation
           if next?
             @currentChapter().current = next
             @arrange()
+    else
+      switch event.which
+        when 27 # escape
+          $(document.activeElement).blur()
 
 window.Presentation = Presentation
