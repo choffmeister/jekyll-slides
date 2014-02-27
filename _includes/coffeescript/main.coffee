@@ -89,33 +89,33 @@ class Presentation
   resize: (event) =>
 
   keydown: (event) =>
-    console.log(event.keyCode)
-    switch event.keyCode
-      when 27 # escape
-        @element.toggleClass("overview")
-      when 37 # left
-        curr = @currentChapter()
-        next = @previousChapter()
-        if next?
-          @current = next
-          @arrange()
-      when 39 # right
-        curr = @currentChapter()
-        next = @nextChapter()
-        if next?
-          @current = next
-          @arrange()
-      when 38 # up
-        curr = @currentChapter().currentSlide()
-        next = @currentChapter().previousSlide()
-        if next?
-          @currentChapter().current = next
-          @arrange()
-      when 40 # down
-        curr = @currentChapter().currentSlide()
-        next = @currentChapter().nextSlide()
-        if next?
-          @currentChapter().current = next
-          @arrange()
+    if not $(document.activeElement).is(":input,[contenteditable]")
+      switch event.which
+        when 27 # escape
+          @element.toggleClass("overview")
+        when 37 # left
+          curr = @currentChapter()
+          next = @previousChapter()
+          if next?
+            @current = next
+            @arrange()
+        when 39 # right
+          curr = @currentChapter()
+          next = @nextChapter()
+          if next?
+            @current = next
+            @arrange()
+        when 38 # up
+          curr = @currentChapter().currentSlide()
+          next = @currentChapter().previousSlide()
+          if next?
+            @currentChapter().current = next
+            @arrange()
+        when 40 # down
+          curr = @currentChapter().currentSlide()
+          next = @currentChapter().nextSlide()
+          if next?
+            @currentChapter().current = next
+            @arrange()
 
 window.Presentation = Presentation
