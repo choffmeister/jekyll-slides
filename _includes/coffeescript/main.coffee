@@ -5,12 +5,6 @@ class Slide
     @element = $(element)
     @element
       .css({
-        "position": "absolute"
-        "left": "50%"
-        "top": "50%"
-        "overflow": "visible"
-      })
-      .css({
         "width": "#{@chapter.presentation.originalWidth}px"
         "margin-left": "#{-@chapter.presentation.originalWidth / 2.0}px"
       })
@@ -48,41 +42,36 @@ class Presentation
 
   constructor: (element, originalWidth, originalHeight) ->
     @element = $(element)
+    @element.wrapInner("<div class=\"center\"></div>")
     @originalWidth = originalWidth or 800
     @originalHeight = originalHeight or 600
     @ratio = @originalWidth / @originalHeight
 
-    $(window).keydown (event) => @keydown(event)
-    $(window).resize (event) => @resize()
-    @resize()
-
   init: () =>
-    @chapters = _.chain(@element.children(".chapter"))
+    @chapters = _.chain(@element.children(".center").children(".chapter"))
       .map((c, i) => new Chapter(this, c, i))
       .filter((c) => c.slides.length > 0)
       .value()
     @current = _.first(@chapters)
     @arrange()
 
+    # register event handler
+    $(window).keydown (event) => @keydown(event)
+    $(window).resize (event) => @resize()
+    @resize()
+
     # animation is blocked until the inital arrangement has been done
     window.setTimeout((() => @element.addClass("animated")), 0)
 
   arrange: () =>
     currentSlide = @currentChapter().currentSlide()
-
     _.each(@chapters,(c) =>
+      Presentation.translate(c.element, (c.x - @currentChapter().x) * (@originalWidth + 20), 0)
       _.each(c.slides, (s) =>
         switch s == currentSlide
           when true then Slide.setStateCss(s.element, "active")
           when false then Slide.setStateCss(s.element, "inactive")
-
-        $(s.element).css({
-          "-webkit-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
-          "-moz-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
-          "-ms-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
-          "-o-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
-          "transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
-        })
+        Presentation.translate(s.element, 0, (s.y - c.currentSlide().y) * (@originalHeight + 20))
       )
     )
 
@@ -121,5 +110,14 @@ class Presentation
       switch event.which
         when 27 # escape
           $(document.activeElement).blur()
+
+  @translate: (element, x, y) ->
+    $(element).css({
+      "-webkit-transform": "translate(#{x}px, #{y}px)"
+      "-moz-transform": "translate(#{x}px, #{y}px)"
+      "-ms-transform": "translate(#{x}px, #{y}px)"
+      "-o-transform": "translate(#{x}px, #{y}px)"
+      "transform": "translate(#{x}px, #{y}px)"
+    })
 
 window.Presentation = Presentation

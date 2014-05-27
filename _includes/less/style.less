@@ -3,12 +3,30 @@
 @import "./themes/solarized-light";
 
 #background {
-  .fullscreen()
+  .fullscreen();
 }
 
 .presentation {
+  .fullscreen();
+
+  .center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+  }
+
   .chapter {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: visible;
+
     .slide {
+      position: absolute;
+      left: 0;
+      top: 0;
+      overflow: visible;
+
       &.state-inactive { opacity: 0; }
       &.state-active { opacity: 1; }
     }
@@ -24,14 +42,12 @@
     }
   }
 
-
   &.animated {
     .translate-transform(1s ease);
 
-    .chapter {
-      .slide {
-        .translate-transform-opacity(1s ease, 1s ease);
-      }
+    .chapter, .slide {
+      .translate-transform(1s ease);
+      .translate-transform-opacity(1s ease, 1s ease);
     }
   }
 }
