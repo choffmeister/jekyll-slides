@@ -1,4 +1,4 @@
-# Hello World
+{% inline_svg images/javascript.svg scale='0.25' %}
 
 {% graphviz %}
 digraph graphname
@@ -23,6 +23,16 @@ doctype html
 html
   head
     body(id="body")
+~~~
+
+---
+
+# CoffeeScript
+
+~~~ coffee
+class Name
+  constructor: (@firstName, @lastName) ->
+  greet: () => console.log "Hello #{@firstName}!"
 ~~~
 
 ---

@@ -2,18 +2,20 @@
 layout: default
 ---
 
-<div id="presentation" class="fullscreen presentation">
-  {% for chapter in page.chapters %}
-  <div class="chapter">
-    {% for slide in chapter.slides %}
-    <div class="slide">
-      {{ slide.html }}
+<div id="background" class="background">
+  <div id="presentation" class="presentation">
+    {% for chapter in page.chapters %}
+    <div class="chapter">
+      {% for slide in chapter.slides %}
+      <div class="slide">
+        {{ slide.html }}
+      </div>
+      {% endfor %}
     </div>
     {% endfor %}
   </div>
-  {% endfor %}
 </div>
 <script type="text/javascript">
-  var presentation = new Presentation("#presentation");
+  var presentation = new Presentation("#presentation", 1024, 600);
   presentation.init();
 </script>

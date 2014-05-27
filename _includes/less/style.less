@@ -1,0 +1,38 @@
+@import "./normalize";
+@import "./mixins";
+@import "./themes/solarized-light";
+@import "./graphviz";
+
+#background {
+  .fullscreen()
+}
+
+.presentation {
+  .chapter {
+    .slide {
+      &.state-inactive { opacity: 0; }
+      &.state-active { opacity: 1; }
+    }
+  }
+
+  &.overview {
+    .transform(scale(0.25));
+
+    .chapter {
+      .slide {
+        opacity: 1;
+      }
+    }
+  }
+
+
+  &.animated {
+    .translate-transform(1s ease);
+
+    .chapter {
+      .slide {
+        .translate-transform-opacity(1s ease, 1s ease);
+      }
+    }
+  }
+}
