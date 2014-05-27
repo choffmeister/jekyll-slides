@@ -5,12 +5,6 @@ class Slide
     @element = $(element)
     @element
       .css({
-        "position": "absolute"
-        "left": "50%"
-        "top": "50%"
-        "overflow": "visible"
-      })
-      .css({
         "width": "#{@chapter.presentation.originalWidth}px"
         "margin-left": "#{-@chapter.presentation.originalWidth / 2.0}px"
       })
@@ -48,38 +42,36 @@ class Presentation
 
   constructor: (element, originalWidth, originalHeight) ->
     @element = $(element)
+    @element.wrapInner("<div class=\"center\"></div>")
     @originalWidth = originalWidth or 800
     @originalHeight = originalHeight or 600
     @ratio = @originalWidth / @originalHeight
 
-    $(window).keydown (event) => @keydown(event)
-    $(window).resize (event) => @resize()
-    @resize()
-
   init: () =>
-    @chapters = _.chain(@element.children(".chapter"))
+    @chapters = _.chain(@element.children(".center").children(".chapter"))
       .map((c, i) => new Chapter(this, c, i))
       .filter((c) => c.slides.length > 0)
       .value()
     @current = _.first(@chapters)
     @arrange()
 
+    # register event handler
+    $(window).keydown (event) => @keydown(event)
+    $(window).resize (event) => @resize()
+    @resize()
+
     # animation is blocked until the inital arrangement has been done
     window.setTimeout((() => @element.addClass("animated")), 0)
 
   arrange: () =>
     currentSlide = @currentChapter().currentSlide()
-
     _.each(@chapters,(c) =>
+      Presentation.translate(c.element, (c.x - @currentChapter().x) * (@originalWidth + 20), 0)
       _.each(c.slides, (s) =>
         switch s == currentSlide
           when true then Slide.setStateCss(s.element, "active")
           when false then Slide.setStateCss(s.element, "inactive")
-
-        Presentation.translate(
-          s.element,
-          (c.x - @currentChapter().x) * (@originalWidth + 20),
-          (s.y - c.currentSlide().y) * (@originalHeight + 20))
+        Presentation.translate(s.element, 0, (s.y - c.currentSlide().y) * (@originalHeight + 20))
       )
     )
 
