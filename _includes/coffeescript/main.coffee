@@ -76,13 +76,10 @@ class Presentation
           when true then Slide.setStateCss(s.element, "active")
           when false then Slide.setStateCss(s.element, "inactive")
 
-        $(s.element).css({
-          "-webkit-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
-          "-moz-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
-          "-ms-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
-          "-o-transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
-          "transform": "translate(#{(s.x - @currentChapter().x) * (@originalWidth + 20)}px, #{(s.y - c.currentSlide().y) * (@originalHeight + 20)}px)"
-        })
+        Presentation.translate(
+          s.element,
+          (c.x - @currentChapter().x) * (@originalWidth + 20),
+          (s.y - c.currentSlide().y) * (@originalHeight + 20))
       )
     )
 
@@ -121,5 +118,14 @@ class Presentation
       switch event.which
         when 27 # escape
           $(document.activeElement).blur()
+
+  @translate: (element, x, y) ->
+    $(element).css({
+      "-webkit-transform": "translate(#{x}px, #{y}px)"
+      "-moz-transform": "translate(#{x}px, #{y}px)"
+      "-ms-transform": "translate(#{x}px, #{y}px)"
+      "-o-transform": "translate(#{x}px, #{y}px)"
+      "transform": "translate(#{x}px, #{y}px)"
+    })
 
 window.Presentation = Presentation
