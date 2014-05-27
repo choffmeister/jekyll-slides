@@ -2,6 +2,19 @@
 layout: default
 ---
 
+<script type="text/javascript">
+  window.MathJax = {
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  };
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+{% inline_javascript javascript/crypto-3.1.2/rollups/md5.js %}
+{% inline_javascript javascript/crypto-3.1.2/rollups/sha1.js %}
+
 <div id="background" class="background">
   <div id="presentation" class="presentation">
     {% for chapter in page.chapters %}
@@ -15,19 +28,7 @@ layout: default
     {% endfor %}
   </div>
 </div>
-{% inline_javascript javascript/crypto-3.1.2/rollups/md5.js %}
-{% inline_javascript javascript/crypto-3.1.2/rollups/sha1.js %}
-<script type="text/javascript">
-  window.MathJax = {
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  };
-</script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/javascript">
   var presentation = new Presentation("#presentation", 1024, 600);
   presentation.init();
 </script>
-{% inline_coffeescript coffeescript/hash-functions.coffee %}

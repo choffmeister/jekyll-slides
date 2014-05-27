@@ -40,6 +40,15 @@ $$ h : x \mapsto y = h(x) $$
 </tr>
 </table>
 
+<script>
+  var md5_input = $("#md5-input");
+  var md5_output = $("#md5-output");
+  md5_input.on("keyup change", function () {
+    md5_output.val(CryptoJS.MD5(md5_input.val()));
+  });
+  md5_input.change();
+</script>
+
 ---
 
 # SHA1 Hash Funktion
@@ -54,3 +63,12 @@ $$ h : x \mapsto y = h(x) $$
   <td><input id="sha1-output" type="text" readonly="readonly" /></td>
 </tr>
 </table>
+
+<script>
+  var sha1_input = $("#sha1-input");
+  var sha1_output = $("#sha1-output");
+  sha1_input.on("keyup change", function () {
+    sha1_output.val(CryptoJS.SHA1(sha1_input.val()));
+  });
+  sha1_input.change();
+</script>
