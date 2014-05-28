@@ -2,6 +2,10 @@
 
 _jekyll-slides_ is a [Jekyll](http://jekyllrb.com/) project template to generate beautiful HTML5 presentations from plain [Markdown](http://daringfireball.net/projects/markdown/). These presentations are self contained, i.e. every needed CSS, JavaScript and so on gets compiled into a single HTML file to make easy distribution possible.
 
+## Examples
+
+* [Dummy](http://choffmeister.github.io/jekyll-slides/examples/dummy.html)
+
 ## Getting started
 
 First make sure you have [Ruby](https://www.ruby-lang.org/) and [Bundler](http://bundler.io/) installed. Then open up a terminal and execute:
