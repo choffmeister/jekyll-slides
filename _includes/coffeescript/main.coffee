@@ -56,6 +56,7 @@ class Presentation
     @arrange()
 
     # register event handler
+    $(window).swipe { swipe: @swipe }
     $(window).keydown (event) => @keydown(event)
     $(window).resize (event) => @resize()
     @resize()
@@ -75,7 +76,46 @@ class Presentation
       )
     )
 
+  switchPreviousChapter: () =>
+    curr = @currentChapter()
+    next = @previousChapter()
+    if next?
+      @current = next
+      @arrange()
+
+  switchNextChapter: () =>
+    curr = @currentChapter()
+    next = @nextChapter()
+    if next?
+      @current = next
+      @arrange()
+
+  switchPreviousSlide: () =>
+    curr = @currentChapter().currentSlide()
+    next = @currentChapter().previousSlide()
+    if next?
+      @currentChapter().current = next
+      @arrange()
+
+  switchNextSlide: () =>
+    curr = @currentChapter().currentSlide()
+    next = @currentChapter().nextSlide()
+    if next?
+      @currentChapter().current = next
+      @arrange()
+
   resize: (event) =>
+
+  swipe: (event, direction, distance, duration, fingerCount) =>
+    switch direction
+      when "left"
+        @switchNextChapter()
+      when "right"
+        @switchPreviousChapter()
+      when "up"
+        @switchNextSlide()
+      when "down"
+        @switchPreviousSlide()
 
   keydown: (event) =>
     if not $(document.activeElement).is(":input,[contenteditable]")
@@ -83,29 +123,13 @@ class Presentation
         when 27 # escape
           @element.toggleClass("overview")
         when 37 # left
-          curr = @currentChapter()
-          next = @previousChapter()
-          if next?
-            @current = next
-            @arrange()
+          @switchPreviousChapter()
         when 39 # right
-          curr = @currentChapter()
-          next = @nextChapter()
-          if next?
-            @current = next
-            @arrange()
+          @switchNextChapter()
         when 38 # up
-          curr = @currentChapter().currentSlide()
-          next = @currentChapter().previousSlide()
-          if next?
-            @currentChapter().current = next
-            @arrange()
+          @switchPreviousSlide()
         when 40 # down
-          curr = @currentChapter().currentSlide()
-          next = @currentChapter().nextSlide()
-          if next?
-            @currentChapter().current = next
-            @arrange()
+          @switchNextSlide()
     else
       switch event.which
         when 27 # escape
