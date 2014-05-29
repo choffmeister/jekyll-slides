@@ -42,18 +42,17 @@ class Presentation
 
   constructor: (element, originalWidth, originalHeight) ->
     @element = $(element)
-    @element.wrapInner("<div class=\"center\"></div>")
     @originalWidth = originalWidth or 800
     @originalHeight = originalHeight or 600
     @ratio = @originalWidth / @originalHeight
 
   init: () =>
-    @chapters = _.chain(@element.children(".center").children(".chapter"))
+    @chapters = _.chain(@element.children(".content").children(".chapter"))
       .map((c, i) => new Chapter(this, c, i))
       .filter((c) => c.slides.length > 0)
       .value()
     @current = _.first(@chapters)
-    @arrange()
+    @update()
 
     # register event handler
     $(window).swipe { swipe: @swipe }
@@ -64,7 +63,10 @@ class Presentation
     # animation is blocked until the inital arrangement has been done
     window.setTimeout((() => @element.addClass("animated")), 0)
 
-  arrange: () =>
+  update: () =>
+    x = @currentChapter().x
+    y = @currentChapter().currentSlide().y
+
     currentSlide = @currentChapter().currentSlide()
     _.each(@chapters,(c) =>
       Presentation.translate(c.element, (c.x - @currentChapter().x) * (@originalWidth + 20), 0)
@@ -76,33 +78,50 @@ class Presentation
       )
     )
 
+    index = @getSlideIndex()
+    @element.children(".position").text("#{index.index + 1} / #{index.total}")
+
+  getSlideIndex: (slide) =>
+    if slide?
+      x = @slide.x
+      y = @slide.y
+    else
+      x = @currentChapter().x
+      y = @currentChapter().currentSlide().y
+
+    total: _.reduce(@chapters, ((sum, c) -> sum + c.slides.length), 0)
+    index: _.chain(@chapters)
+      .filter((c) -> c.x < x)
+      .reduce(((sum, c) -> sum + c.slides.length), 0)
+      .value() + y
+
   switchPreviousChapter: () =>
     curr = @currentChapter()
     next = @previousChapter()
     if next?
       @current = next
-      @arrange()
+      @update()
 
   switchNextChapter: () =>
     curr = @currentChapter()
     next = @nextChapter()
     if next?
       @current = next
-      @arrange()
+      @update()
 
   switchPreviousSlide: () =>
     curr = @currentChapter().currentSlide()
     next = @currentChapter().previousSlide()
     if next?
       @currentChapter().current = next
-      @arrange()
+      @update()
 
   switchNextSlide: () =>
     curr = @currentChapter().currentSlide()
     next = @currentChapter().nextSlide()
     if next?
       @currentChapter().current = next
-      @arrange()
+      @update()
 
   resize: (event) =>
 

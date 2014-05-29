@@ -4,15 +4,18 @@ layout: default
 
 <div id="background" class="background">
   <div id="presentation" class="presentation">
-    {% for chapter in page.chapters %}
-    <div class="chapter">
-      {% for slide in chapter.slides %}
-      <div class="slide">
-        {{ slide.html }}
+    <div class="content">
+      {% for chapter in page.chapters %}
+      <div class="chapter">
+        {% for slide in chapter.slides %}
+        <div class="slide">
+          {{ slide.html }}
+        </div>
+        {% endfor %}
       </div>
       {% endfor %}
     </div>
-    {% endfor %}
+    <div class="position"></div>
   </div>
 </div>
 <script type="text/javascript">
