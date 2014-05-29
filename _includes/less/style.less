@@ -10,45 +10,56 @@
 .presentation {
   .fullscreen();
 
-  .center {
+  .content {
     position: absolute;
     left: 50%;
     top: 50%;
-  }
 
-  .chapter {
-    position: absolute;
-    left: 0;
-    top: 0;
-    overflow: visible;
-
-    .slide {
+    .chapter {
       position: absolute;
       left: 0;
       top: 0;
       overflow: visible;
 
-      &.state-inactive { opacity: 0; }
-      &.state-active { opacity: 1; }
+      .slide {
+        position: absolute;
+        left: 0;
+        top: 0;
+        overflow: visible;
+
+        &.state-inactive { opacity: 0; }
+        &.state-active { opacity: 1; }
+      }
     }
   }
 
-  &.overview {
-    .transform(scale(0.25));
+  .position {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    color: gray;
+  }
 
-    .chapter {
-      .slide {
-        opacity: 1;
+  &.overview {
+    .content {
+      .transform(scale(0.25));
+
+      .chapter {
+        .slide {
+          opacity: 1;
+        }
       }
     }
   }
 
   &.animated {
-    .translate-transform(1s ease);
-
-    .chapter, .slide {
+    .content {
       .translate-transform(1s ease);
-      .translate-transform-opacity(1s ease, 1s ease);
+
+      .chapter, .slide {
+        .translate-transform(1s ease);
+        .translate-transform-opacity(1s ease, 1s ease);
+      }
     }
   }
 }
