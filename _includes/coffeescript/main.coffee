@@ -42,20 +42,20 @@ class Presentation
 
   constructor: (element, originalWidth, originalHeight) ->
     @element = $(element)
-    @element.wrapInner("<div class=\"center\"></div>")
     @originalWidth = originalWidth or 800
     @originalHeight = originalHeight or 600
     @ratio = @originalWidth / @originalHeight
 
   init: () =>
-    @chapters = _.chain(@element.children(".center").children(".chapter"))
+    @chapters = _.chain(@element.children(".content").children(".chapter"))
       .map((c, i) => new Chapter(this, c, i))
       .filter((c) => c.slides.length > 0)
       .value()
     @current = _.first(@chapters)
-    @arrange()
+    @update()
 
     # register event handler
+    $(window).swipe { swipe: @swipe }
     $(window).keydown (event) => @keydown(event)
     $(window).resize (event) => @resize()
     @resize()
@@ -63,7 +63,10 @@ class Presentation
     # animation is blocked until the inital arrangement has been done
     window.setTimeout((() => @element.addClass("animated")), 0)
 
-  arrange: () =>
+  update: () =>
+    x = @currentChapter().x
+    y = @currentChapter().currentSlide().y
+
     currentSlide = @currentChapter().currentSlide()
     _.each(@chapters,(c) =>
       Presentation.translate(c.element, (c.x - @currentChapter().x) * (@originalWidth + 20), 0)
@@ -75,7 +78,63 @@ class Presentation
       )
     )
 
+    index = @getSlideIndex()
+    @element.children(".position").text("#{index.index + 1} / #{index.total}")
+
+  getSlideIndex: (slide) =>
+    if slide?
+      x = @slide.x
+      y = @slide.y
+    else
+      x = @currentChapter().x
+      y = @currentChapter().currentSlide().y
+
+    total: _.reduce(@chapters, ((sum, c) -> sum + c.slides.length), 0)
+    index: _.chain(@chapters)
+      .filter((c) -> c.x < x)
+      .reduce(((sum, c) -> sum + c.slides.length), 0)
+      .value() + y
+
+  switchPreviousChapter: () =>
+    curr = @currentChapter()
+    next = @previousChapter()
+    if next?
+      @current = next
+      @update()
+
+  switchNextChapter: () =>
+    curr = @currentChapter()
+    next = @nextChapter()
+    if next?
+      @current = next
+      @update()
+
+  switchPreviousSlide: () =>
+    curr = @currentChapter().currentSlide()
+    next = @currentChapter().previousSlide()
+    if next?
+      @currentChapter().current = next
+      @update()
+
+  switchNextSlide: () =>
+    curr = @currentChapter().currentSlide()
+    next = @currentChapter().nextSlide()
+    if next?
+      @currentChapter().current = next
+      @update()
+
   resize: (event) =>
+
+  swipe: (event, direction, distance, duration, fingerCount) =>
+    switch direction
+      when "left"
+        @switchNextChapter()
+      when "right"
+        @switchPreviousChapter()
+      when "up"
+        @switchNextSlide()
+      when "down"
+        @switchPreviousSlide()
 
   keydown: (event) =>
     if not $(document.activeElement).is(":input,[contenteditable]")
@@ -83,29 +142,13 @@ class Presentation
         when 27 # escape
           @element.toggleClass("overview")
         when 37 # left
-          curr = @currentChapter()
-          next = @previousChapter()
-          if next?
-            @current = next
-            @arrange()
+          @switchPreviousChapter()
         when 39 # right
-          curr = @currentChapter()
-          next = @nextChapter()
-          if next?
-            @current = next
-            @arrange()
+          @switchNextChapter()
         when 38 # up
-          curr = @currentChapter().currentSlide()
-          next = @currentChapter().previousSlide()
-          if next?
-            @currentChapter().current = next
-            @arrange()
+          @switchPreviousSlide()
         when 40 # down
-          curr = @currentChapter().currentSlide()
-          next = @currentChapter().nextSlide()
-          if next?
-            @currentChapter().current = next
-            @arrange()
+          @switchNextSlide()
     else
       switch event.which
         when 27 # escape
